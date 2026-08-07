@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Tech Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --paper:#F5F6F8; --ink:#1B1D2E; --ink-soft:#5B5E70;
+    --navy:#2E2B83; --mint:var(--pop); --blue:#4E8FC7; --line:#E4E3E8;
+    --pop:#14B8C9; --pop-soft:#E0F7FA; --pop-dark:#0E8E9C; --pop-gradient:#14B8C9;
+  }
+  .swatches{position:sticky; top:0; z-index:30; background:#fff; border-bottom:1px solid var(--line); padding:10px 32px; display:flex; align-items:center; gap:12px;}
+  .swatches span{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.08em;}
+  .swatch{width:28px; height:28px; border-radius:50%; cursor:pointer; border:2px solid transparent;}
+  .swatch.active{border-color:var(--ink);}
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--white); color:var(--ink); font-family:'IBM Plex Sans', sans-serif; line-height:1.6;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 32px;}
+  h1,h2,h3{font-family:'IBM Plex Sans', sans-serif; font-weight:700; color:var(--ink); letter-spacing:-0.01em;}
+  p{color:var(--ink-soft);}
+  .eyebrow{font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;}
+
+  header{padding:20px 0;}
+  header .wrap{display:flex; justify-content:space-between; align-items:center;}
+  .logo img{height:42px;}
+  .navlinks{display:flex; gap:28px; font-size:13.5px; font-weight:600;}
+  .navlinks a{color:var(--ink-soft);}
+  .navcta{background:var(--navy); color:#fff; font-size:13px; font-weight:600; padding:11px 22px; border-radius:8px;}
+  .navcta:hover{background:#211F63;}
+  .nav-right{display:flex; align-items:center; gap:14px;}
+  .nav-linkedin{
+    width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    color:#fff; background:var(--pop);
+  }
+  .nav-linkedin:hover{background:var(--pop-dark);}
+
+  /* HERO */
+  .hero{background:var(--navy); padding:70px 0 0; overflow:hidden; position:relative;}
+  .hero .wrap{display:grid; grid-template-columns:1.1fr 0.9fr; gap:50px; align-items:center; padding-bottom:60px;}
+  .hero .eyebrow{color:#8FE0BE;}
+  .hero h1{font-size:48px; line-height:1.1; color:#fff; margin:18px 0 20px;}
+  .hero p.lede{color:#C6C7E0; font-size:17px; max-width:46ch; margin-bottom:32px;}
+  .btn{background:var(--mint); color:#fff; font-size:14.5px; font-weight:600; padding:15px 30px; border-radius:10px; display:inline-block;}
+  .btn:hover{background:var(--pop-dark);}
+  .hero-photo-wrap{position:relative;}
+  .hero-blob{position:absolute; border-radius:40px; z-index:0;}
+  .hero-photo{position:relative; z-index:1; border-radius:20px; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.35);}
+  .hero-photo img{width:100%; display:block; aspect-ratio:3/2; object-fit:cover; object-position:center center;}
+  .hero-strip{height:8px; display:flex;}
+  .hero-strip div{flex:1;}
+
+  /* WHO WE WORK WITH */
+  .who{padding:96px 0 56px;}
+  .section-head{max-width:60ch; margin-bottom:50px;}
+  .section-head .eyebrow{color:var(--navy);}
+  .section-head h2{font-size:32px; margin-top:12px;}
+  .who-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+  .who-card{border-radius:16px; padding:32px 28px; color:#fff;}
+  .who-card .badge{width:46px; height:46px; border-radius:12px; background:rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center; margin-bottom:18px;}
+  .who-card h3{font-size:19px; margin-bottom:10px; color:#fff;}
+  .who-card p{font-size:14.5px; color:rgba(255,255,255,0.85);}
+
+  /* HOW WE CAN HELP */
+  .help-index{background:linear-gradient(180deg, var(--pop-soft) 0%, var(--paper) 45%); padding:56px 0 96px;}
+  .help-cards{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:8px;}
+  .help-card{background:#fff; border-radius:14px; padding:26px 18px 22px; text-align:center; box-shadow:0 4px 16px rgba(27,29,46,0.07);}
+  .help-card .ic{width:48px; height:48px; border-radius:50%; margin:0 auto 14px; display:flex; align-items:center; justify-content:center;}
+  .help-card h3{font-size:13.5px; font-weight:600; color:var(--ink);}
+
+  .detail{padding:96px 0;}
+  .help-block{padding:40px; border-radius:18px; margin-bottom:22px; border:2px solid var(--accent, var(--navy));}
+  .help-block .block-head{display:flex; align-items:center; gap:18px; margin-bottom:26px;}
+  .help-block .ic-lg{width:50px; height:50px; border-radius:14px; background:var(--accent, var(--navy)); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .help-block h3{font-size:21px; margin:0;}
+  .help-block .block-cols{display:grid; grid-template-columns:0.9fr 1.1fr; gap:44px; align-items:start;}
+  .help-block p{font-size:15px; margin-bottom:10px; line-height:1.6;}
+  .help-block .left p:first-child{margin-top:0;}
+  .help-block ul{list-style:none; padding-top:0;}
+  .help-block ul li{font-size:14.5px; line-height:1.6; color:var(--ink-soft); display:flex; align-items:flex-start; gap:10px; padding:7px 0;}
+  .help-block ul li:first-child{padding-top:0;}
+  .tick{width:20px; height:20px; border-radius:6px; background:var(--accent, var(--navy)); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:2px;}
+  .tick svg{width:11px; height:11px;}
+
+  /* ABOUT */
+  .about{background:var(--blue); padding:100px 0; color:#fff;}
+  .about .wrap{display:grid; grid-template-columns:0.5fr 1.5fr; gap:56px; align-items:center;}
+  .ring{width:230px; height:230px; border-radius:50%; background:var(--pop); display:flex; align-items:center; justify-content:center; margin:0 auto;}
+  .ring-photo{width:196px; height:196px; border-radius:50%; overflow:hidden; border:6px solid #fff;}
+  .ring-photo img{width:100%; height:100%; object-fit:cover;}
+  .about h2{color:#fff; font-size:30px; margin:16px 0 4px;}
+  .about .cred{font-family:'IBM Plex Mono', monospace; font-size:12px; color:#DDEBFF; margin-bottom:14px;}
+  .linkedin-link{
+    display:inline-flex; align-items:center; gap:8px; font-size:13.5px; font-weight:600; color:#fff;
+    background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.3); border-radius:999px;
+    padding:8px 16px; margin-bottom:22px;
+  }
+  .linkedin-link:hover{background:rgba(255,255,255,0.22);}
+  .about p{color:#E4ECFB; font-size:15.5px; margin-bottom:16px; max-width:60ch;}
+  .about-linkedin{
+    display:inline-flex; align-items:center; gap:10px; font-size:14.5px; font-weight:600; color:#fff;
+    margin-top:6px;
+  }
+  .about-linkedin:hover .about-linkedin-icon{background:var(--pop-dark);}
+  .about-linkedin-icon{
+    width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    background:var(--pop); flex-shrink:0;
+  }
+
+  /* CONTACT */
+  .contact{
+    padding:100px 0; text-align:center; color:#fff; position:relative; overflow:hidden;
+    background:var(--navy);
+  }
+  .contact-blob{position:absolute; animation:float 9s ease-in-out infinite;}
+  .contact-blob:nth-child(2){animation-duration:11s; animation-delay:-2s;}
+  .contact-blob:nth-child(3){animation-duration:7.5s; animation-delay:-4s;}
+  .contact-blob:nth-child(4){animation-duration:13s; animation-delay:-1s;}
+  @keyframes float{
+    0%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(18px,-22px) scale(1.06);}
+    100%{transform:translate(0,0) scale(1);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .contact-blob{animation:none;}
+  }
+  .contact .wrap{position:relative; z-index:1;}
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; text-align:left;}
+  .mail-badge{
+    width:52px; height:52px; border-radius:14px; background:rgba(255,255,255,0.15);
+    display:flex; align-items:center; justify-content:center; margin-bottom:20px;
+    border:1px solid rgba(255,255,255,0.25);
+  }
+  .contact .eyebrow{color:#E8FFF0;}
+  .contact h2{color:#fff; font-size:34px; margin:14px 0 16px; max-width:14ch;}
+  .contact p{color:#EAFBF0; font-size:16px; max-width:42ch; margin:0;}
+  .contact p a{color:#fff; font-weight:600; text-decoration:underline; text-underline-offset:3px;}
+  .contact-links{display:flex; justify-content:center; gap:16px; flex-wrap:wrap;}
+  .contact-links a{background:#fff; color:var(--navy); font-weight:600; padding:13px 24px; border-radius:10px; font-size:14.5px;}
+  .contact-form{
+    background:#fff; border-radius:16px; padding:34px 32px; max-width:460px; margin:0;
+    display:flex; flex-direction:column; gap:16px; text-align:left; box-shadow:0 24px 60px rgba(0,0,0,0.3);
+    position:relative; z-index:1;
+  }
+  .contact-form label{font-size:12.5px; font-weight:600; color:var(--ink); margin-bottom:5px; display:block;}
+  .contact-form input, .contact-form textarea{
+    width:100%; border:1px solid var(--line); border-radius:8px; padding:11px 13px;
+    font-family:'IBM Plex Sans', sans-serif; font-size:14.5px; color:var(--ink); background:#fff;
+  }
+  .contact-form textarea{min-height:100px; resize:vertical;}
+  .contact-form button{
+    background:var(--pop); color:#fff; font-weight:600; border:none; padding:13px 22px;
+    border-radius:10px; font-size:14.5px; cursor:pointer; align-self:flex-start;
+  }
+  .contact-form button:hover{background:var(--pop-dark);}
+  .form-note{font-size:13px; color:var(--ink-soft); text-align:center; margin-top:14px;}
+  .form-success{
+    display:none; background:#fff; border-radius:16px; padding:34px 32px; max-width:460px; margin:0;
+    text-align:center; box-shadow:0 24px 60px rgba(0,0,0,0.3); position:relative; z-index:1;
+  }
+  .form-success.show{display:block;}
+  .form-success .tick-big{
+    width:52px; height:52px; border-radius:50%; background:var(--pop); display:flex; align-items:center;
+    justify-content:center; margin:0 auto 16px;
+  }
+  .form-success h3{color:var(--ink); font-size:19px; margin-bottom:8px;}
+  .form-success p{color:var(--ink-soft); font-size:14.5px; margin:0;}
+
+  footer{padding:26px 0; font-size:13px; color:var(--ink-soft); text-align:center;}
+
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero h1{font-size:34px;}
+    .navlinks{display:none;}
+    .who-grid{grid-template-columns:1fr;}
+    .help-cards{grid-template-columns:1fr 1fr;}
+    .help-block{grid-template-columns:1fr;}
+    .about .wrap{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr; text-align:center;}
+    .mail-badge{margin-left:auto; margin-right:auto;}
+    .contact h2{max-width:100%; margin-left:auto; margin-right:auto;}
+    .contact p{max-width:100%; margin-left:auto; margin-right:auto;}
+    .contact-form, .form-success{margin:0 auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="swatches">
+  <span>Pop colour:</span>
+  <div class="swatch active" style="background:#14B8C9;" data-pop="#14B8C9" data-soft="#E0F7FA" data-dark="#0E8E9C" data-grad="#14B8C9" data-navy="#2E2B83" title="Cyan"></div>
+  <div class="swatch" style="background:#6EC1F0;" data-pop="#6EC1F0" data-soft="#E8F5FD" data-dark="#3D96CC" data-grad="#6EC1F0" data-navy="#2E2B83" title="Light Blue"></div>
+</div>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#"><img src="images/logo.webp" alt="Food Tech Group" style="filter:invert(1) brightness(0.2);"></a>
+    <div class="navlinks">
+      <a href="#who">Who We Work With</a>
+      <a href="#help">Services</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="nav-right">
+      <a class="nav-linkedin" href="https://www.linkedin.com/in/ellen-bird/" target="_blank" rel="noopener" title="Connect on LinkedIn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+      </a>
+      <a class="navcta" href="#contact">Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Independent Technical Consultancy</div>
+      <h1>Food Safety, Quality &amp; Compliance</h1>
+      <p class="lede" style="font-size:19px; color:#fff; font-weight:600; margin-bottom:16px;">Experienced technical expertise when you need it.</p>
+      <p class="lede">Food Tech Group provides independent technical expertise, working as an extension of your business to help solve food safety, quality and compliance challenges.</p>
+      <a class="btn" href="#contact">Get in touch</a>
+    </div>
+    <div class="hero-photo-wrap">
+      <div class="hero-blob" style="width:200px; height:200px; background:var(--pop-gradient); top:-30px; right:-30px;"></div>
+      <div class="hero-blob" style="width:160px; height:160px; background:var(--blue); bottom:-25px; left:-25px;"></div>
+      <div class="hero-photo">
+        <img src="images/hero-grid.jpg" alt="Risk assessment and food labelling compliance leading, with allergen management, production line and import shipping as supporting detail" loading="eager">
+      </div>
+    </div>
+  </div>
+  <div class="hero-strip">
+    <div style="background:var(--mint);"></div><div style="background:var(--blue);"></div><div style="background:#fff;"></div>
+  </div>
+</section>
+
+<section class="who" id="who">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Who we work with</div>
+      <h2>Whether you're manufacturing food, importing products, managing contract manufacturers or supplying ingredients, Food Tech Group provides practical technical support tailored to your business.</h2>
+    </div>
+    <div class="who-grid">
+      <div class="who-card" style="background:var(--mint);">
+        <div class="badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l5 4V10l5 4V7l5 4v10"/></svg></div>
+        <h3>Food manufacturers</h3>
+        <p>Helping manufacturers strengthen food safety systems, improve quality, meet regulatory requirements and resolve technical challenges.</p>
+      </div>
+      <div class="who-card" style="background:var(--blue);">
+        <div class="badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41L11 3.83A2 2 0 009.59 3.24H4a1 1 0 00-1 1v5.59a2 2 0 00.59 1.41l9.58 9.59a2 2 0 002.82 0l4.6-4.6a2 2 0 000-2.82z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></div>
+        <h3>Brand owners</h3>
+        <p>Supporting businesses that outsource manufacturing by reviewing technical documentation, assessing manufacturing capability and helping ensure product composition and labelling meet regulatory requirements.</p>
+      </div>
+      <div class="who-card" style="background:var(--navy);">
+        <div class="badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h18l-2.5 5h-13z"/><rect x="15" y="9" width="4" height="6"/><line x1="17" y1="6" x2="17" y2="9"/><path d="M2 20c1.5-1 3-1 4.5 0s3 1 4.5 0 3-1 4.5 0 3 1 4.5 0" opacity="0.7"/></svg></div>
+        <h3>Food importers, brokers and distributors</h3>
+        <p>Helping to assess product compliance, review supplier documentation and labelling, and ensure products meet New Zealand regulatory requirements.</p>
+      </div>
+      <div class="who-card" style="background:var(--pop-dark);">
+        <div class="badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="11" r="2.5"/></svg></div>
+        <h3>Ingredient suppliers</h3>
+        <p>Supporting businesses with technical documentation, product specifications and customer technical queries.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="help-index" id="help">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">How we can help</div>
+      <h2>Our services</h2>
+    </div>
+    <div class="help-cards">
+      <div class="help-card"><div class="ic" style="background:var(--pop);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="1.5"/><line x1="8.5" y1="7.5" x2="15.5" y2="7.5"/><line x1="8.5" y1="10.5" x2="15.5" y2="10.5"/><line x1="8.5" y1="13" x2="13" y2="13"/><line x1="8.5" y1="15.5" x2="15.5" y2="15.5"/><line x1="8.5" y1="18" x2="12" y2="18"/></svg></div><h3>Food Labelling &amp; Regulatory Compliance</h3></div>
+      <div class="help-card"><div class="ic" style="background:var(--blue);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/></svg></div><h3>Food Safety &amp; Quality Systems</h3></div>
+      <div class="help-card"><div class="ic" style="background:var(--navy);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15.5" y2="15.5"/></svg></div><h3>Internal Auditing &amp; Audit Preparation</h3></div>
+      <div class="help-card"><div class="ic" style="background:var(--pop-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 15h18l-2.5 5h-13z"/><rect x="15" y="9" width="4" height="6"/><line x1="17" y1="6" x2="17" y2="9"/><path d="M2 20c1.5-1 3-1 4.5 0s3 1 4.5 0 3-1 4.5 0 3 1 4.5 0" opacity="0.7"/></svg></div><h3>Food Import Compliance</h3></div>
+      <div class="help-card"><div class="ic" style="background:var(--pop);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.6-3.6a5 5 0 01-6.1 6.1L6.3 20.7a2 2 0 01-2.8-2.8L12.4 9a5 5 0 016.1-6.1z"/></svg></div><h3>Technical Support</h3></div>
+    </div>
+  </div>
+</section>
+
+<section class="detail">
+  <div class="wrap">
+    <div class="help-block" style="--accent:var(--pop);">
+      <div class="block-head">
+        <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="1.5"/><line x1="8.5" y1="7.5" x2="15.5" y2="7.5"/><line x1="8.5" y1="10.5" x2="15.5" y2="10.5"/><line x1="8.5" y1="13" x2="13" y2="13"/><line x1="8.5" y1="15.5" x2="15.5" y2="15.5"/><line x1="8.5" y1="18" x2="12" y2="18"/></svg></div>
+        <h3>Food Labelling &amp; Regulatory Compliance</h3>
+      </div>
+      <div class="block-cols">
+      <div class="left">
+        <p>Food labels must meet specific regulatory requirements under the Australia New Zealand Food Standards Code. Errors can result in costly corrective actions, such as applying over-labels to existing stock or reprinting artwork. In more serious cases, non-compliant products may require trade or consumer-level recalls, which can be expensive and damaging to your brand.</p>
+        <p>Food Tech Group helps businesses develop, review and maintain compliant food labels and technical information, ensuring products meet regulatory requirements and customer expectations.</p>
+      </div>
+      <div class="right">
+        <ul>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Label development and compliance reviews</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Ingredient lists and composition checks</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Nutrition Information Panels</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Allergen, warning and advisory statements</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Health and nutrition claims</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Health Star Rating</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Compliance checks for imported foods</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+
+    <div class="help-block" style="--accent:#4E8FC7;">
+      <div class="block-head">
+        <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Food Safety &amp; Quality Management Systems</h3>
+      </div>
+      <div class="block-cols">
+      <div class="left">
+        <p>A robust food safety and quality management system is essential to ensure products are safe, suitable and consistently meet regulatory, customer and business requirements.</p>
+        <p>Food Tech Group can assist businesses to develop new systems and processes, or review and improve existing programmes to meet New Zealand food safety requirements and align with customer and third-party standards.</p>
+      </div>
+      <div class="right">
+        <ul>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>National Programmes, Food Control Plans and HACCP-based systems</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>GFSI-recognised standards, including BRCGS</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Supplier and raw material management</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Allergen management</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Non-conformance and complaint management</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Food fraud and food defence</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Product testing and release requirements</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Finished product specifications</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Technical documentation, including Product Information Forms (PIFs)</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+
+    <div class="help-block" style="--accent:#2E2B83;">
+      <div class="block-head">
+        <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15.5" y2="15.5"/></svg></div>
+        <h3>Internal Auditing &amp; Audit Preparation</h3>
+      </div>
+      <div class="block-cols">
+      <div class="left">
+        <p>Regular internal audits are an important way to verify that your food safety and quality systems are effective, identify opportunities for improvement and ensure your business remains prepared for customer, certification and regulatory audits.</p>
+        <p>Food Tech Group can assist with internal audits, audit preparation, gap assessments and closing out non-conformances identified during customer, certification or regulatory audits.</p>
+      </div>
+      <div class="right">
+        <ul>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Identify potential food safety and quality risks</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Confirm compliance with regulatory and customer requirements</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Identify opportunities for operational improvement</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Verify the effectiveness of staff training and awareness</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Support a positive food safety culture</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Prepare for customer or third-party audits</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+
+    <div class="help-block" style="--accent:var(--pop);">
+      <div class="block-head">
+        <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 15h18l-2.5 5h-13z"/><rect x="15" y="9" width="4" height="6"/><line x1="17" y1="6" x2="17" y2="9"/><path d="M2 20c1.5-1 3-1 4.5 0s3 1 4.5 0 3-1 4.5 0 3 1 4.5 0" opacity="0.7"/></svg></div>
+        <h3>Food Import Compliance</h3>
+      </div>
+      <div class="block-cols">
+      <div class="left">
+        <p>Importing food into New Zealand comes with specific regulatory responsibilities. Food importers and distributors must ensure the products they import are safe, suitable and meet New Zealand food safety requirements.</p>
+        <p>Food Tech Group can assist importers to review product compliance, assess technical documentation and understand their obligations under the Food Act 2014 and the Australia New Zealand Food Standards Code.</p>
+      </div>
+      <div class="right">
+        <ul>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Review of supplier documentation, product specifications and technical information</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Ingredient, allergen, composition and labelling verification</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Assessment of applicable New Zealand regulatory requirements and any specific product requirements</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Identification of compliance gaps and improvement opportunities</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+
+    <div class="help-block" style="--accent:#4E8FC7;">
+      <div class="block-head">
+        <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.6-3.6a5 5 0 01-6.1 6.1L6.3 20.7a2 2 0 01-2.8-2.8L12.4 9a5 5 0 016.1-6.1z"/></svg></div>
+        <h3>Technical Support</h3>
+      </div>
+      <div class="block-cols">
+      <div class="left">
+        <p>Food businesses often face technical challenges that require experienced judgement, practical problem solving and an understanding of the realities of food manufacturing. Food Tech Group provides independent advice on food safety, quality and regulatory matters, helping businesses understand risks and determine practical solutions.</p>
+      </div>
+      <div class="right">
+        <ul>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Technical problem solving and troubleshooting</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Investigation of quality issues and customer complaints</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Review of technical documentation and specifications</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Regulatory interpretation and guidance</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Support with corrective actions and improvement plans</li>
+          <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Assistance responding to customer or supplier technical queries</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="ring">
+      <div class="ring-photo">
+        <img src="images/ellen-headshot.webp" alt="Ellen Bird">
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow" style="color:#DDEBFF;">About Me</div>
+      <div style="font-size:14px; color:#DDEBFF; margin-top:12px;">Principal Consultant</div>
+      <h2>Ellen Bird</h2>
+      <div class="cred">BE (Hons) Food Engineering, Massey University | MNZIFST | BRCGS Lead Auditor trained</div>
+      <p>Ellen's experience spans more than 25 years across food manufacturing, ingredient supply, product development, quality and technical management roles. Having worked with multinational manufacturers including Nestlé, PepsiCo and Goodman Fielder, as well as ingredient suppliers and SME businesses, she has seen first-hand the challenges businesses face when translating food safety, quality and regulatory requirements into effective systems and processes.</p>
+      <p>Throughout her career, Ellen has been involved in the decisions that shape day-to-day food operations - balancing compliance requirements, customer expectations, production realities and commercial considerations. She understands that technical solutions must not only address compliance needs, but also be achievable and effective in practice.</p>
+      <a class="about-linkedin" href="https://www.linkedin.com/in/ellen-bird/" target="_blank" rel="noopener">
+        <span class="about-linkedin-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+        </span>
+        <span>Connect with me on LinkedIn</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-blob" style="width:280px; height:280px; border-radius:50%; background:var(--pop); opacity:0.5; top:-100px; left:-60px;"></div>
+  <div class="contact-blob" style="width:200px; height:200px; border-radius:50%; background:var(--blue); opacity:0.4; bottom:-70px; right:6%;"></div>
+  <div class="contact-blob" style="width:140px; height:140px; border-radius:50%; background:var(--pop-dark); opacity:0.5; top:20px; right:20%;"></div>
+  <div class="contact-blob" style="width:110px; height:110px; border-radius:50%; background:#fff; opacity:0.08; bottom:20px; left:15%;"></div>
+  <div class="wrap contact-grid">
+    <div class="contact-left">
+      <div class="mail-badge"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+      <div class="eyebrow">Get in Touch</div>
+      <h2>Got a question and not sure where to start?</h2>
+      <p>Email us directly at <a href="mailto:hello@foodtechgroup.co.nz">hello@foodtechgroup.co.nz</a> or fill out the form and we'll be in touch as soon as we can.</p>
+    </div>
+
+    <div class="contact-right">
+      <form class="contact-form" id="cf-form" action="https://formspree.io/f/xppazooe" method="POST">
+        <div>
+          <label for="cf-name">Name</label>
+          <input type="text" id="cf-name" name="name" placeholder="Your name" required>
+        </div>
+        <div>
+          <label for="cf-company">Company</label>
+          <input type="text" id="cf-company" name="company" placeholder="Your company">
+        </div>
+        <div>
+          <label for="cf-email">Email</label>
+          <input type="email" id="cf-email" name="email" placeholder="you@company.co.nz" required>
+        </div>
+        <div>
+          <label for="cf-phone">Phone number</label>
+          <input type="tel" id="cf-phone" name="phone" placeholder="Your phone number">
+        </div>
+        <div>
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" placeholder="Tell us what you're working through..." required></textarea>
+        </div>
+        <input type="text" name="_gotcha" style="display:none">
+        <input type="hidden" name="_subject" value="New enquiry from Food Tech Group website">
+        <button type="submit">Send message</button>
+      </form>
+
+      <div class="form-success" id="cf-success">
+        <div class="tick-big"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h3>Thank you.</h3>
+        <p>We will be in touch as soon as we can.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Food Tech Group Limited © 2026 — Auckland, New Zealand</footer>
+
+<script>
+  document.querySelectorAll('.swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      sw.classList.add('active');
+      document.documentElement.style.setProperty('--pop', sw.dataset.pop);
+      document.documentElement.style.setProperty('--pop-soft', sw.dataset.soft);
+      document.documentElement.style.setProperty('--pop-dark', sw.dataset.dark);
+      document.documentElement.style.setProperty('--pop-gradient', sw.dataset.grad);
+      document.documentElement.style.setProperty('--navy', sw.dataset.navy);
+    });
+  });
+
+  const cfForm = document.getElementById('cf-form');
+  if (cfForm) {
+    cfForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = new FormData(cfForm);
+      fetch(cfForm.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (response.ok) {
+          cfForm.style.display = 'none';
+          document.getElementById('cf-success').classList.add('show');
+        } else {
+          alert("Something went wrong sending your message - please try emailing us directly instead.");
+        }
+      }).catch(() => {
+        alert("Something went wrong sending your message - please try emailing us directly instead.");
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
