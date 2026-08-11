@@ -1,0 +1,7 @@
+{
+  "redirects": [
+    { "source": "/projects", "destination": "/#help", "permanent": true },
+    { "source": "/what-we-do", "destination": "/#about", "permanent": true },
+    { "source": "/take-action", "destination": "/#contact", "permanent": true }
+  ]
+}
