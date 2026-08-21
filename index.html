@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VW8CFYXZTB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VW8CFYXZTB');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Food Tech Group | Food Safety, Quality & Compliance Consultant, Auckland NZ</title>
@@ -107,7 +115,10 @@
   /* HOW WE CAN HELP */
   .help-index{background:linear-gradient(180deg, var(--pop-soft) 0%, var(--paper) 45%); padding:56px 0 96px;}
   .help-cards{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:8px;}
-  .help-card{background:#fff; border-radius:14px; padding:26px 18px 22px; text-align:center; box-shadow:0 4px 16px rgba(27,29,46,0.07);}
+  .help-card{background:#fff; border-radius:14px; padding:26px 18px 22px; text-align:center; box-shadow:0 4px 16px rgba(27,29,46,0.07); display:block; cursor:pointer; transition:transform .15s, box-shadow .15s;}
+  .help-card:hover{transform:translateY(-3px); box-shadow:0 8px 22px rgba(27,29,46,0.12);}
+  html{scroll-behavior:smooth;}
+  .help-block{scroll-margin-top:80px;}
   .help-card .ic{width:48px; height:48px; border-radius:50%; margin:0 auto 14px; display:flex; align-items:center; justify-content:center;}
   .help-card h3{font-size:13.5px; font-weight:600; color:var(--ink);}
 
@@ -328,18 +339,18 @@
       <h2>Our services</h2>
     </div>
     <div class="help-cards">
-      <div class="help-card"><div class="ic" style="background:var(--pop);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="1.5"/><line x1="8.5" y1="7.5" x2="15.5" y2="7.5"/><line x1="8.5" y1="10.5" x2="15.5" y2="10.5"/><line x1="8.5" y1="13" x2="13" y2="13"/><line x1="8.5" y1="15.5" x2="15.5" y2="15.5"/><line x1="8.5" y1="18" x2="12" y2="18"/></svg></div><h3>Food Labelling &amp; Regulatory Compliance</h3></div>
-      <div class="help-card"><div class="ic" style="background:var(--blue);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/></svg></div><h3>Food Safety &amp; Quality Systems</h3></div>
-      <div class="help-card"><div class="ic" style="background:var(--navy);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15.5" y2="15.5"/></svg></div><h3>Internal Auditing &amp; Audit Preparation</h3></div>
-      <div class="help-card"><div class="ic" style="background:var(--pop-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 15h18l-2.5 5h-13z"/><rect x="15" y="9" width="4" height="6"/><line x1="17" y1="6" x2="17" y2="9"/><path d="M2 20c1.5-1 3-1 4.5 0s3 1 4.5 0 3-1 4.5 0 3 1 4.5 0" opacity="0.7"/></svg></div><h3>Food Import Compliance</h3></div>
-      <div class="help-card"><div class="ic" style="background:var(--pop);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.6-3.6a5 5 0 01-6.1 6.1L6.3 20.7a2 2 0 01-2.8-2.8L12.4 9a5 5 0 016.1-6.1z"/></svg></div><h3>Technical Support</h3></div>
+      <a class="help-card" href="#svc-labelling"><div class="ic" style="background:var(--pop);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="1.5"/><line x1="8.5" y1="7.5" x2="15.5" y2="7.5"/><line x1="8.5" y1="10.5" x2="15.5" y2="10.5"/><line x1="8.5" y1="13" x2="13" y2="13"/><line x1="8.5" y1="15.5" x2="15.5" y2="15.5"/><line x1="8.5" y1="18" x2="12" y2="18"/></svg></div><h3>Food Labelling &amp; Regulatory Compliance</h3></a>
+      <a class="help-card" href="#svc-safety"><div class="ic" style="background:var(--blue);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/></svg></div><h3>Food Safety &amp; Quality Systems</h3></a>
+      <a class="help-card" href="#svc-auditing"><div class="ic" style="background:var(--navy);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15.5" y2="15.5"/></svg></div><h3>Internal Auditing &amp; Audit Preparation</h3></a>
+      <a class="help-card" href="#svc-import"><div class="ic" style="background:var(--pop-dark);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 15h18l-2.5 5h-13z"/><rect x="15" y="9" width="4" height="6"/><line x1="17" y1="6" x2="17" y2="9"/><path d="M2 20c1.5-1 3-1 4.5 0s3 1 4.5 0 3-1 4.5 0 3 1 4.5 0" opacity="0.7"/></svg></div><h3>Food Import Compliance</h3></a>
+      <a class="help-card" href="#svc-support"><div class="ic" style="background:var(--pop);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.6-3.6a5 5 0 01-6.1 6.1L6.3 20.7a2 2 0 01-2.8-2.8L12.4 9a5 5 0 016.1-6.1z"/></svg></div><h3>Technical Support</h3></a>
     </div>
   </div>
 </section>
 
 <section class="detail">
   <div class="wrap">
-    <div class="help-block" style="--accent:var(--pop);">
+    <div class="help-block" style="--accent:var(--pop);" id="svc-labelling">
       <div class="block-head">
         <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="6" y="4" width="12" height="16" rx="1.5"/><line x1="8.5" y1="7.5" x2="15.5" y2="7.5"/><line x1="8.5" y1="10.5" x2="15.5" y2="10.5"/><line x1="8.5" y1="13" x2="13" y2="13"/><line x1="8.5" y1="15.5" x2="15.5" y2="15.5"/><line x1="8.5" y1="18" x2="12" y2="18"/></svg></div>
         <h3>Food Labelling &amp; Regulatory Compliance</h3>
@@ -363,7 +374,7 @@
       </div>
     </div>
 
-    <div class="help-block" style="--accent:#4E8FC7;">
+    <div class="help-block" style="--accent:#4E8FC7;" id="svc-safety">
       <div class="block-head">
         <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
         <h3>Food Safety &amp; Quality Management Systems</h3>
@@ -389,7 +400,7 @@
       </div>
     </div>
 
-    <div class="help-block" style="--accent:#2E2B83;">
+    <div class="help-block" style="--accent:#2E2B83;" id="svc-auditing">
       <div class="block-head">
         <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15.5" y2="15.5"/></svg></div>
         <h3>Internal Auditing &amp; Audit Preparation</h3>
@@ -412,7 +423,7 @@
       </div>
     </div>
 
-    <div class="help-block" style="--accent:var(--pop);">
+    <div class="help-block" style="--accent:var(--pop);" id="svc-import">
       <div class="block-head">
         <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 15h18l-2.5 5h-13z"/><rect x="15" y="9" width="4" height="6"/><line x1="17" y1="6" x2="17" y2="9"/><path d="M2 20c1.5-1 3-1 4.5 0s3 1 4.5 0 3-1 4.5 0 3 1 4.5 0" opacity="0.7"/></svg></div>
         <h3>Food Import Compliance</h3>
@@ -433,7 +444,7 @@
       </div>
     </div>
 
-    <div class="help-block" style="--accent:#4E8FC7;">
+    <div class="help-block" style="--accent:#4E8FC7;" id="svc-support">
       <div class="block-head">
         <div class="ic-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.6-3.6a5 5 0 01-6.1 6.1L6.3 20.7a2 2 0 01-2.8-2.8L12.4 9a5 5 0 016.1-6.1z"/></svg></div>
         <h3>Technical Support</h3>
@@ -577,6 +588,9 @@
         if (response.ok) {
           cfForm.style.display = 'none';
           document.getElementById('cf-success').classList.add('show');
+          if (typeof gtag === 'function') {
+            gtag('event', 'generate_lead', { method: 'contact_form' });
+          }
         } else {
           alert("Something went wrong sending your message - please try emailing us directly instead.");
         }
@@ -585,6 +599,22 @@
       });
     });
   }
+
+  // GA4 click tracking: email link, LinkedIn links, and Get in touch CTA buttons
+  function trackClick(selector, eventName, params) {
+    document.querySelectorAll(selector).forEach(function(el) {
+      el.addEventListener('click', function() {
+        if (typeof gtag === 'function') {
+          gtag('event', eventName, params || {});
+        }
+      });
+    });
+  }
+
+  trackClick('a[href^="mailto:"]', 'contact', { method: 'email' });
+  trackClick('.nav-linkedin, .about-linkedin', 'social_click', { platform: 'linkedin' });
+  trackClick('.navcta', 'cta_click', { location: 'header' });
+  trackClick('.hero .btn', 'cta_click', { location: 'hero' });
 </script>
 
 </body>
