@@ -72,8 +72,8 @@
   p{color:var(--ink-soft);}
   .eyebrow{font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;}
 
-  header{padding:20px 0;}
-  header .wrap{display:flex; justify-content:space-between; align-items:center;}
+  header{padding:20px 0; position:relative; z-index:2; background:#fff;}
+  header .wrap{display:flex; justify-content:space-between; align-items:center; position:relative;}
   .logo img{height:42px;}
   .navlinks{display:flex; gap:28px; font-size:13.5px; font-weight:600;}
   .navlinks a{color:var(--ink-soft);}
@@ -85,6 +85,14 @@
     color:#fff; background:var(--pop);
   }
   .nav-linkedin:hover{background:var(--pop-dark);}
+  .nav-toggle{
+    display:none; align-items:center; justify-content:center; width:36px; height:36px;
+    background:none; border:none; cursor:pointer; color:var(--navy); padding:0;
+  }
+  .nav-toggle svg{width:22px; height:22px;}
+  .nav-toggle .icon-close{display:none;}
+  .nav-toggle.open .icon-burger{display:none;}
+  .nav-toggle.open .icon-close{display:block;}
 
   /* HERO */
   .hero{background:var(--navy); padding:70px 0 0; overflow:hidden; position:relative;}
@@ -244,7 +252,16 @@
   @media (max-width:900px){
     .hero .wrap{grid-template-columns:1fr;}
     .hero h1{font-size:34px;}
-    .navlinks{display:none;}
+    .nav-linkedin{display:none;}
+    .nav-toggle{display:flex;}
+    .navlinks{
+      display:none; position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; gap:2px; background:#fff; padding:8px 32px 20px;
+      border-bottom:1px solid var(--line); box-shadow:0 16px 24px -18px rgba(27,29,46,0.25);
+    }
+    .navlinks.open{display:flex;}
+    .navlinks a{padding:12px 0; border-top:1px solid var(--line); font-size:15px;}
+    .navlinks a:first-child{border-top:none;}
     .who-grid{grid-template-columns:1fr;}
     .steps-grid{grid-template-columns:1fr; gap:36px;}
     .help-cards{grid-template-columns:1fr 1fr;}
@@ -264,17 +281,22 @@
 <header>
   <div class="wrap">
     <a class="logo" href="#"><img src="images/logo.webp" alt="Food Tech Group" style="filter:invert(1) brightness(0.2);"></a>
-    <div class="navlinks">
+    <div class="navlinks" id="navlinks">
       <a href="#who">Who We Work With</a>
       <a href="#help">Services</a>
       <a href="#how-we-work">How We Work</a>
       <a href="#about">About</a>
+      <a href="resources.html">Resources</a>
     </div>
     <div class="nav-right">
       <a class="nav-linkedin" href="https://www.linkedin.com/in/ellen-bird/" target="_blank" rel="noopener" title="Connect on LinkedIn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
       </a>
       <a class="navcta" href="#contact">Get in touch</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="navlinks">
+        <svg class="icon-burger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -615,6 +637,24 @@
   trackClick('.nav-linkedin, .about-linkedin', 'social_click', { platform: 'linkedin' });
   trackClick('.navcta', 'cta_click', { location: 'header' });
   trackClick('.hero .btn', 'cta_click', { location: 'hero' });
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('navlinks');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', function() {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    navLinks.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
 </script>
 
 </body>
